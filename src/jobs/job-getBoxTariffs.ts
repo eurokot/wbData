@@ -28,14 +28,14 @@ interface ApiResponse {
 
 export default async function getBoxTariffs(): Promise<void> {
   try {
-    if (!env.WB_URL || !env.WB_API_KEY) {
-      logger.warn(`WB_URL or WB_API_KEY not specified in .env. Job skipped`);
+    if (!env.WB_API_KEY) {
+      logger.warn(`WB_API_KEY not specified in .env. Job skipped`);
       return;
     }
 
     const today = moment().format("YYYY-MM-DD");
 
-    const response = await axios.get<ApiResponse>(env.WB_URL, {
+    const response = await axios.get<ApiResponse>("https://common-api.wildberries.ru/api/v1/tariffs/box", {
       headers: { Authorization: `Bearer ${env.WB_API_KEY}` },
       params: { date: today },
     });
